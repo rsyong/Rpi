@@ -45,9 +45,19 @@
 					"pwd":that.pwd
 				}}).then(response => {
 				 	if(response.data.type=="1"){
-				 		alert(response.data.msg);
+				 		that.$alert(response.data.msg, '提示', {
+				          confirmButtonText: '确定',
+				          callback: action => {
+				            
+				          }
+				       });
 				 	}else if(response.data.type=="0"){
-				 		alert(response.data.msg);
+				 		that.$alert(response.data.msg, '提示', {
+				          confirmButtonText: '确定',
+				          callback: action => {
+				            
+				          }
+				       });
 				 	}
 				}, response => {
 				    // error callback 

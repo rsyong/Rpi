@@ -7,7 +7,7 @@
 	<div class="login_bar mt-20">
 		<p>请输入您的手机号</p>
 		<input placeholder="请输入你的手机号" />
-		<a href="#" class="login_btn text-center color-fff mt-10 text-decoration">发送</a>
+		<a href="javaScript:void(0)" class="login_btn text-center color-fff mt-10 text-decoration">发送</a>
 	</div>
 </div>
 </template>

@@ -7,7 +7,12 @@ import Register from '../components/login/Register'
 import index from '../components/page/index'
 import Pageshow from '../components/page/Pageshow'
 import apiAdmin from '../components/page/apiAdmin'
+
+/*饿了么UI库*/
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
 Vue.use(Router)
+Vue.use(ElementUI)
 
 export default new Router({
 //	history:true,

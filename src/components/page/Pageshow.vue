@@ -46,6 +46,11 @@
 			}
 		},
 		created(){
+			this.$notify({
+	          title: '登录成功',
+	          message: '欢迎您：'+localStorage.userPhone,
+	          type: 'success'
+	        });
 			this.ajaxData();
 		},
 		methods:{

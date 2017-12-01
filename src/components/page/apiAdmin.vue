@@ -33,7 +33,7 @@
 							<td>{{item.name}}</td>
 							<td><span class="moths">{{item.moth}}</span>{{item.api_url}}</td>
 							<td>{{item.time}}</td>
-							<td class="text-center"><i class="iconfont icon-shanchu del" @click.stop="del(key,item.id)"></i></td>
+							<td class="text-center"><i class="el-icon-delete del" @click.stop="del(key,item.id)"></i></td>
 						</tr>
 					</table>
 				</div>
@@ -154,7 +154,12 @@
 			changeActive(inx,val,data){
 				if(inx==1){
 					if(val==1){
-						alert("开发中...");
+						this.$alert('开发中', '提示', {
+				          confirmButtonText: '确定',
+				          callback: action => {
+				            
+				          }
+				        });
 						return;
 					}
 					this.isactive=val;

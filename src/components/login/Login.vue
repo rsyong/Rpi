@@ -46,14 +46,32 @@
 				}}).then(function(data){
 					if(data.data.type==1){
 						localStorage.userPhone=_this.phone;
-						_this.$router.push({
-							path: '/index'
-						})
+						_this.$message({
+				          message: '登录成功',
+				          type: 'success',
+				          duration:1000,
+				          showClose:true,
+				          onClose:function(){
+				          	_this.$router.push({
+								path: '/index'
+							})
+				          }
+				       });
 					}else if(data.data.type==0){
-						alert(data.data.msg)
+						_this.$message({
+				          message: data.data.msg,
+				          type: 'error',
+				          duration:3000,
+				          showClose:true,
+				       	});
 					}
 				}).catch(function(){
-					
+					_this.$message({
+			          message: "登录失败",
+			          type: 'error',
+			          duration:3000,
+			          showClose:true,
+			       	});
 				})
 			}
 		}

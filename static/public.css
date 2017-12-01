@@ -2,11 +2,11 @@
 	padding: 0;
 	margin: 0;
 	font-family: "微软雅黑";
-	color: #333;
 	list-style: none;
 }
 body{
 	font-size: 15px;
+	color: #333;
 }
 a{
 	text-decoration: none;
