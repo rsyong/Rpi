@@ -1,0 +1,131 @@
+.content-left{
+	width: 250px;
+	border-right: 1px solid #E5E5E5;
+	line-height: 50px;
+}
+.content-left ul li{
+	cursor: pointer;
+}
+.ul-active,.content-left ul li:hover{
+	background: #ECF8EE;
+	color: #4CAF50;
+}
+.content-right{
+	padding: 10px 15px;
+	box-sizing: border-box;
+}
+.new_projct{
+	display: inline-block;
+	background: #4CAF50;
+	width: 100px;
+	line-height: 32px;
+	color: #fff;
+	font-size: 14px;
+	border-radius: 3px;
+}
+.project{
+	border: 1px solid #E5E5E5;
+	border-radius: 5px;
+}
+.project table{
+	border-collapse: collapse;
+	width: 100%;
+}
+.project table th,.project table td{
+	text-align: left;
+	padding-left: 15px;
+}
+.project table tr{
+	height: 40px;
+	border-bottom: 1px solid #E5E5E5;
+}
+.project table tr:last-child{
+	border-bottom: none;
+}
+.project table tr:first-child:hover{
+	background:transparent
+}
+.project table tr:hover{
+	background: #EFEFEF;
+	cursor: pointer;
+}
+.gorun{
+	width: 250px;
+	border-right: 1px solid #DCDCDC;
+	text-indent: 10px;
+	line-height: 40px;
+}
+.gorun h4{
+	border-bottom: 1px solid #DCDCDC;
+	font-weight: 600;
+}
+.gorun ul li{
+	font-size: 13px;
+	cursor: pointer;
+}
+.gorun ul li:hover{
+	background: #ECF8EE;
+    color: #4CAF50;
+}
+.api_table{
+	width: 100%;
+	border-collapse: collapse;
+}
+.api_table tr td{
+	height: 40px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+.api_table tr:first-child{
+	font-weight: 600;
+}
+.api_table tr{
+	border-bottom: 1px solid #dcdcdc;
+}
+.api_table tr td{
+	padding-left: 10px;
+}
+.api_table tr:first-child:hover{
+	background: transparent;
+}
+.api_table tr:hover{
+	background: #F0F0F0;
+	cursor: pointer;
+}
+.add{
+	width: 40px;
+	background: #F2F2F2;
+	cursor: pointer;
+}
+.add:hover{
+	background: #43A047;
+	color: #fff;
+}
+.moths{
+	background: #4CAF50;
+	font-weight: 600;
+	color: #fff;
+	line-height: 24px;
+	min-width: 45px;
+	text-align: center;
+	font-size: 12px;
+	font-weight: 200;
+	margin-right: 10px;
+	display: inline-block;
+	border-radius: 3px;
+	text-transform : uppercase
+}
+.key{
+	margin: 0;
+	background: #f2f2f2;
+	border: 1px solid #e5e5e5;
+	color: #888;
+}
+.del{
+	font-size: 20px;
+	color: #5A8BFF;
+}
+.del:hover{
+	color: #D70500;
+}
