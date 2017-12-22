@@ -59,10 +59,20 @@
 					"userphone":_this.userPhone
 				}}).then(response=>{
 					if(response.data.type==1){
-						alert(response.data.msg);
-						this.$emit('ee',false);
+						_this.$alert(response.data.msg, '提示', {
+				          confirmButtonText: '确定',
+				          callback: action => {
+				            _this.$emit('ee',false);
+				          }
+				       });
+						
 					}else if(response.data.type==0){
-						alert(response.data.msg);
+						_this.$alert(response.data.msg, '提示', {
+				          confirmButtonText: '确定',
+				          callback: action => {
+				            
+				          }
+				       });
 					}
 				})
 			},

@@ -70,7 +70,12 @@
 				if(reponse.data.type==1){
 					_this.apiData=reponse.data.data;
 				}else{
-					alert(reponse.data.msg)
+					_this.$alert(response.data.msg, '提示', {
+				          confirmButtonText: '确定',
+				          callback: action => {
+				            
+				          }
+				      });
 				}
 			})
 			this.$http.get("serachGround.php",{params:{
@@ -79,7 +84,12 @@
 				if(reponse.data.type==1){
 					_this.groun=reponse.data.data;
 				}else{
-					alert(reponse.data.msg)
+					_this.$alert(response.data.msg, '提示', {
+				          confirmButtonText: '确定',
+				          callback: action => {
+				            
+				          }
+				      });
 				}
 			})
 		},
@@ -88,13 +98,22 @@
 		},
 		methods:{
 			del(keys,val){
+				var _this=this;
 				this.$http.get("delA.php",{params:{
 					id:val,
 				}}).then((res)=>{
 					if(res.data.type==1){
 						this.apiData.splice(keys,1);
 					}
-					alert(res.data.msg);
+					_this.$message({
+				          message: res.data.msg,
+				          type: 'success',
+				          duration:1000,
+				          showClose:true,
+				          onClose:function(){
+				          	
+				          }
+				     });
 				})
 			},
 			incrementTotal(val){
@@ -131,6 +150,15 @@
 					uuid:_this.$route.query.userid,
 				}}).then((res)=>{
 					if(res.data.type==1){
+						_this.$message({
+				          message: '新建成功',
+				          type: 'success',
+				          duration:1000,
+				          showClose:true,
+				          onClose:function(){
+				          	
+				          }
+				       });
 						this.groun.push({name:val,keys:timestamp});
 					}
 				})

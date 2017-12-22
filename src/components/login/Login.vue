@@ -1,5 +1,8 @@
 <template>
 <div class="login">
+	<div class="back">
+		
+	</div>
 	<div class="text-center line-height">
 		<img src="../../assets/logo.png" class="logo_index"/>
 		<h3>{{title}}</h3>
@@ -77,3 +80,22 @@
 		}
 	}
 </script>
+<style>
+.back{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: url(../../assets/bg.jpg) center center no-repeat;
+	background: cover 100%;
+	z-index: -1;
+}
+.login_bar,.login_bar input{
+	background: rgba(255,255,255,0.2);
+}
+a{
+	transition: 500ms;
+}
+.login_btn:hover{background: green;}
+</style>

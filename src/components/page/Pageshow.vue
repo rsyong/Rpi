@@ -46,23 +46,29 @@
 			}
 		},
 		created(){
-			this.$notify({
-	          title: '登录成功',
-	          message: '欢迎您：'+localStorage.userPhone,
-	          type: 'success'
-	        });
 			this.ajaxData();
 		},
 		methods:{
 			del(keys,val){
+				var _this=this;
 				console.log(keys,val)
 				this.$http.get("delAll.php",{params:{
 					id:val,
 				}}).then((res)=>{
 					if(res.data.type==1){
-						this.listData.splice(keys,1);
+						_this.$message({
+				          message: res.data.msg,
+				          type: 'success',
+				          duration:1000,
+				          showClose:true,
+				          onClose:function(){
+				          	_this.$router.push({
+								path: '/index'
+							})
+				          }
+				       });
+						_this.listData.splice(keys,1);
 					}
-					alert(res.data.msg);
 				})
 			},
 			adds(){

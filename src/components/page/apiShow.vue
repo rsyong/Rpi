@@ -83,7 +83,12 @@
 				if(reponse.data.type==1){
 					_this.listGround=reponse.data.data;
 				}else{
-					alert(reponse.data.msg)
+					_this.$alert(response.data.msg, '提示', {
+				          confirmButtonText: '确定',
+				          callback: action => {
+				            
+				          }
+				     });
 				}
 			})
 		},
@@ -109,9 +114,14 @@
 					"gorund_id":groundID,
 				}}).then(reponse=>{
 					if(reponse.data.type==1){
-						_this.$emit("show",{"shows":false,"add":true})
+						_this.$alert(reponse.data.msg, '提示', {
+				          confirmButtonText: '确定',
+				          callback: action => {
+				            _this.$emit("show",{"shows":false,"add":true})
+				          }
+				       });
+						
 					}
-					alert(reponse.data.msg)
 				})
 			},
 			close:function(){

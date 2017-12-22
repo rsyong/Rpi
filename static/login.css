@@ -9,10 +9,10 @@ a{
 	font-weight: 200;
 }
 .login_bar{
-	border: 1px solid #d8dee2;
 	padding: 20px;
 	box-sizing: border-box;
 	border-radius: 5px;
+	box-shadow: 0 0 4px 2px #93A1AB;
 }
 .login_bar p{
 	font-weight: 500;
@@ -43,7 +43,7 @@ input:focus{
 }
 .logo_index{
 	height: 30px;
-	border: 1px solid #DCDCDC;
+	border: 1px solid #d8dee2;
 	border-radius: 50%;
 	padding: 15px;
 }
