@@ -1,5 +1,8 @@
 <template>
 <div class="login">
+	<div class="back">
+		
+	</div>
 	<div class="text-center line-height">
 		<img src="../../assets/logo.png" class="logo_index"/>
 		<h3>{{title}}</h3>
@@ -17,6 +20,7 @@
 </template>
 
 <script>
+	import qs from 'Qs'
 	export default {
 		name: 'register',
 		data (){
@@ -40,18 +44,18 @@
 					return;
 				}
 				var that=this;
-				this.$http.get('/login.php',{params:{
-					"phone":that.phone,
-					"pwd":that.pwd
-				}}).then(response => {
-				 	if(response.data.type=="1"){
+				this.$http.post('/user/register',qs.stringify({
+					"username":that.phone,
+					"password":that.pwd
+				})).then(response => {
+				 	if(response.data.code=="1"){
 				 		that.$alert(response.data.msg, '提示', {
 				          confirmButtonText: '确定',
 				          callback: action => {
 				            
 				          }
 				       });
-				 	}else if(response.data.type=="0"){
+				 	}else{
 				 		that.$alert(response.data.msg, '提示', {
 				          confirmButtonText: '确定',
 				          callback: action => {
@@ -67,3 +71,22 @@
 		}
 	}
 </script>
+<style>
+.back{
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	background: url(../../assets/bg.jpg) center center no-repeat;
+	background: cover 100%;
+	z-index: -1;
+}
+.login_bar,.login_bar input{
+	background: rgba(255,255,255,0.2);
+}
+a{
+	transition: 500ms;
+}
+.login_btn:hover{background: green;}
+</style>

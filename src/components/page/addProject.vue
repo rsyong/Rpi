@@ -13,7 +13,7 @@
 					<div style="width: 162px;">
 						<div>项目类型：</div>
 						<select v-model="kinds">
-							<option v-for="item in projectList">{{item.name}}</option>
+							<option v-for="(item,index) in projectList" :key="index">{{item.name}}</option>
 						</select>
 					</div>
 				</div>
@@ -26,6 +26,7 @@
 </template>
 
 <script>
+	import qs from 'Qs';
 	export default {
 		props:['isShow'],
 		data (){
@@ -51,28 +52,27 @@
 		methods:{
 			suer:function(){
 				var _this=this;
-				this.$http.get("/addList.php",{params:{
+				this.$http.post("/data/addList",qs.stringify({
 					"projectClass":_this.projectClass,
 					"vction":_this.vction,
 					"kinds":_this.kinds,
 					"shouMing":_this.shuoMing,
 					"userphone":_this.userPhone
-				}}).then(response=>{
-					if(response.data.type==1){
+				})).then(response=>{
+					if(response.data.code==1){
 						_this.$alert(response.data.msg, '提示', {
 				          confirmButtonText: '确定',
 				          callback: action => {
 				            _this.$emit('ee',false);
 				          }
 				       });
-						
-					}else if(response.data.type==0){
+					}else{
 						_this.$alert(response.data.msg, '提示', {
 				          confirmButtonText: '确定',
 				          callback: action => {
 				            
 				          }
-				       });
+				       	});
 					}
 				})
 			},

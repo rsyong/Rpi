@@ -19,12 +19,12 @@
 						<th>最后修改时间</th>
 						<th style="text-align: center;">操作</th>
 					</tr>
-					<tr v-for="(item,key) in listData" :title="item.shou_ming" @click="toPush(item.api_id)">
-						<td>{{item.project}}</td>
+					<tr v-for="(item,key) in listData" :title="item.shou_ming" @click="toPush(item.id)" :key="key">
+						<td>{{item.projectClass}}</td>
 						<td>{{item.vction}}</td>
-						<td>{{item.kind}}</td>
-						<td>{{item.api_data}}</td>
-						<td style="text-align: center;"><i class="el-icon-delete del" @click.stop="del(key,item.api_id)"></i></td>
+						<td>{{item.kinds}}</td>
+						<td>{{item.time}}</td>
+						<td style="text-align: center;"><i class="el-icon-delete del" @click.stop="del(key,item.id)"></i></td>
 					</tr>
 				</table>
 			</div>
@@ -35,6 +35,7 @@
 </template>
 
 <script>
+	import qs from 'Qs';
 	import Hedaer from './Hedaer'
 	import addProject from './addProject'
 	export default {
@@ -51,11 +52,10 @@
 		methods:{
 			del(keys,val){
 				var _this=this;
-				console.log(keys,val)
-				this.$http.get("delAll.php",{params:{
+				this.$http.post("/data/deleted",qs.stringify({
 					id:val,
-				}}).then((res)=>{
-					if(res.data.type==1){
+				})).then((res)=>{
+					if(res.data.code==1){
 						_this.$message({
 				          message: res.data.msg,
 				          type: 'success',
@@ -85,10 +85,10 @@
 			},
 			ajaxData(){
 				var _this=this;
-				_this.$http.get("/serach.php",{params:{
+				_this.$http.get("/data/getList",{params:{
 					phone:localStorage.userPhone
 				}}).then(reponse=>{
-					if(reponse.data.type==1){
+					if(reponse.data.code==1){
 						_this.listData=reponse.data.data;
 					}
 				})

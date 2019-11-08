@@ -16,7 +16,7 @@ Vue.use(ElementUI)
 
 export default new Router({
 //	history:true,
-//mode: 'history',
+	mode: 'history',
 	routes: [{
 			path: '/',
 			name: '登录',

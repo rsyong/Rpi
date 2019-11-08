@@ -21,6 +21,7 @@
 </template>
 
 <script>
+	import qs from 'Qs'
 	export default {
 		name: 'Login',
 		data (){
@@ -43,11 +44,12 @@
 			},
 			login:function(){
 				var _this=this;
-				this.$http.get("/login2.php",{params:{
-					"phone":_this.phone,
-					"pwd":_this.pwd
-				}}).then(function(data){
-					if(data.data.type==1){
+				this.$http.post("/user/login",qs.stringify({
+					username:_this.phone,
+					password:_this.pwd
+				})).then(function(data){
+					var data=data.data;
+					if(data.code==1){
 						localStorage.userPhone=_this.phone;
 						_this.$message({
 				          message: '登录成功',
@@ -60,9 +62,9 @@
 							})
 				          }
 				       });
-					}else if(data.data.type==0){
+					}else{
 						_this.$message({
-				          message: data.data.msg,
+				          message: data.msg,
 				          type: 'error',
 				          duration:3000,
 				          showClose:true,

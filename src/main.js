@@ -10,7 +10,7 @@ import axios from 'axios'
 Vue.prototype.$http = axios;
 axios.defaults.withCredentials=false;
 //axios.defaults.headers['Content-Type'] = 'application/x-www-form-urlencoded';
-axios.defaults.baseURL='http://101.201.65.154/php';
+axios.defaults.baseURL='http://192.168.31.25:3000';
 //axios.defaults.baseURL='http://127.0.0.1/php/';
 Vue.config.productionTip = false
 
