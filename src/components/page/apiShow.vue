@@ -11,17 +11,17 @@
 					<div class="flex">
 						<div class="flex mr-10">
 							<div>方法：</div>
-							<select class="flex" v-model="mydata.moth" :disabled="mydata.isEdit">
-								<option v-for="item in ['get','post']">{{item}}</option>
+							<select class="flex" v-model="mydata.meoth" :disabled="mydata.isEdit">
+								<option v-for="(item,index) in ['get','post']" :key="index">{{item}}</option>
 							</select>
 						</div>
 						<div class="flex">
 							<div>分组：</div>
 							<select class="flex" v-model="mydata.gorund" :disabled="mydata.isEdit" v-if="mydata.isEdit">
-								<option v-for="item in listGround">{{item.name}}</option>
+								<option v-for="(item,index) in listGround" :key="index">{{item.ground_name}}</option>
 							</select>
 							<select class="flex"  v-model="gorund" v-if="!mydata.isEdit">
-								<option v-for="item in listGround">{{item.name}}</option>
+								<option v-for="(item,index2) in listGround" :key="index2">{{item.ground_name}}</option>
 							</select>
 						</div>
 					</div>
@@ -29,7 +29,7 @@
 				<div>接口地址：</div>
 				<input placeholder="接口地址" v-model="mydata.api_url" :readonly="mydata.isEdit"/>
 				<div class="rep">请求参数：</div>
-				<div class="flex mb-10" v-for="(item,key) in mydata.canshu">
+				<div class="flex mb-10" v-for="(item,key) in mydata.canshu" :key="key">
 					<div class="flex mr-10">
 						<input placeholder="参数名" v-model="item.name" :readonly="mydata.isEdit"/>
 					</div>
@@ -40,7 +40,7 @@
 					<div class="add text-center border-radius-3 transition-500" @click="delNode(1,key)" v-if="!mydata.isEdit">-</div>
 				</div>
 				<div class="rep">返回参数：</div>
-				<div class="flex mb-10" v-for="(item,key) in mydata.fanhui">
+				<div class="flex mb-10" v-for="(item,index) in mydata.fanhui" :key="'s'+index">
 					<div class="flex mr-10">
 						<input placeholder="参数名" v-model="item.name" :readonly="mydata.isEdit"/>
 					</div>
@@ -62,11 +62,12 @@
 </template>
 
 <script>
+	import qs from 'Qs';
 	export default {
 		props:['isShow','mydata'],
 		data (){
 			return{
-				listGround:[{}],
+				listGround:[],
 				name:'',
 				moth:'get',
 				gorund:'所有分组',
@@ -77,11 +78,11 @@
 		},
 		mounted() {
 			var _this=this;
-			this.$http.get("serachGround.php",{params:{
-				"userid":_this.$route.query.userid
-			}}).then(reponse=>{
-				if(reponse.data.type==1){
-					_this.listGround=reponse.data.data;
+			this.$http.post("/data/ground",qs.stringify({
+				"id":_this.$route.query.id
+			})).then(response=>{
+				if(response.data.code==1){
+					_this.listGround=response.data.data;
 				}else{
 					_this.$alert(response.data.msg, '提示', {
 				          confirmButtonText: '确定',
@@ -95,32 +96,23 @@
 		methods:{
 			suer:function(){
 				var _this=this;
-				var groundID='null';
-				for(var o in _this.listGround){
-					if(_this.listGround[o].name==_this.gorund){
-						groundID=_this.listGround[o].ground_id;
-						break;
-					} 
-			    }  
-				this.$http.get("/addProject.php",{params:{
+				this.$http.post("/data/addApi",qs.stringify({
 					"name":_this.mydata.name,
 					"moth":_this.mydata.moth,
 					"gorund":_this.gorund,
 					"api_url":_this.mydata.api_url,
 					"canshu":JSON.stringify(_this.mydata.canshu),
 					"fanhui":JSON.stringify(_this.mydata.fanhui),
-					"uuid":_this.$route.query.userid,
 					"phone":localStorage.userPhone,
-					"gorund_id":groundID,
-				}}).then(reponse=>{
-					if(reponse.data.type==1){
+					"gorund_id":1,
+				})).then(reponse=>{
+					if(reponse.data.code==1){
 						_this.$alert(reponse.data.msg, '提示', {
 				          confirmButtonText: '确定',
 				          callback: action => {
 				            _this.$emit("show",{"shows":false,"add":true})
 				          }
 				       });
-						
 					}
 				})
 			},

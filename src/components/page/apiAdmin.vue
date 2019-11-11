@@ -4,7 +4,7 @@
 	<div class="flex">
 		<div class="content-left text-center">
 			<ul>
-				<li v-for="(item,key) in ['API接口','状态码']" :class="[key==isactive ? 'ul-active':'']" @click="changeActive(1,key)">{{item}}</li>
+				<li v-for="(item,key) in ['API接口','状态码']" :class="[key==isactive ? 'ul-active':'']" @click="changeActive(1,key)" :key="key">{{item}}</li>
 			</ul>
 		</div>
 		<div class="content-right flex flex-column">
@@ -16,7 +16,7 @@
 				<div class="gorun">
 					<h4>分组</h4>
 					<ul>
-						<li v-for="(item,key) in groun" :class="[key==isactiveGroun ? 'ul-active':'']" @click="changeActive(2,key,item)">{{item.name}}</li>
+						<li v-for="(item,key) in groun" :class="[key==isactiveGroun ? 'ul-active':'']" @click="changeActive(2,key,item)" :key="key">{{item.ground_name}}</li>
 					</ul>
 				</div>
 				<div class="flex">
@@ -28,7 +28,7 @@
 							<td>更新日期</td>
 							<td class="text-center">操作</td>
 						</tr>
-						<tr v-for="(item,key) in apiData" @click.stop="addApi(2,item)">
+						<tr v-for="(item,key) in apiData" @click.stop="addApi(2,item)" :key="key">
 							<td style="width: 30px;"><span class="moths key">{{key+1}}</span></td>
 							<td>{{item.name}}</td>
 							<td><span class="moths">{{item.moth}}</span>{{item.api_url}}</td>
@@ -45,6 +45,7 @@
 </template>
 
 <script>
+	import qs from 'Qs';
 	import Hedaer from './Hedaer'
 	import apiShow from './apiShow'
 	export default {
@@ -52,44 +53,29 @@
 		data(){
 			return{
 				show:false,
-				groun:[{}],
+				groun:[],
 				isactive:0,
 				isactiveGroun:0,
-				apiData:[{}],
+				apiData:[],
 				mydata:{},
 				groundID:'0000000000000',
 			}
 		},
 		mounted(){
 			var _this=this;
-			this.$http.get("showList.php",{params:{
-				"phone":localStorage.userPhone,
-				"uuid":_this.$route.query.userid,
-				"ground_id":_this.groundID,
-			}}).then(reponse=>{
-				if(reponse.data.type==1){
-					_this.apiData=reponse.data.data;
+			this.getApiList();
+			this.$http.post("/data/ground",qs.stringify({
+				"id":_this.$route.query.id
+			})).then(response=>{
+				if(response.data.code==1){
+					_this.groun=response.data.data;
 				}else{
 					_this.$alert(response.data.msg, '提示', {
-				          confirmButtonText: '确定',
-				          callback: action => {
-				            
-				          }
-				      });
-				}
-			})
-			this.$http.get("serachGround.php",{params:{
-				"userid":_this.$route.query.userid
-			}}).then(reponse=>{
-				if(reponse.data.type==1){
-					_this.groun=reponse.data.data;
-				}else{
-					_this.$alert(response.data.msg, '提示', {
-				          confirmButtonText: '确定',
-				          callback: action => {
-				            
-				          }
-				      });
+						confirmButtonText: '确定',
+						callback: action => {
+						
+						}
+					});
 				}
 			})
 		},
@@ -97,6 +83,24 @@
 			
 		},
 		methods:{
+			getApiList(){
+				var _this=this;
+				this.$http.post("/data/getApiList",qs.stringify({
+					"phone":localStorage.userPhone,
+					"ground_id":"1",
+				})).then(reponse=>{
+					if(reponse.data.code==1){
+						_this.apiData=reponse.data.data;
+					}else{
+						_this.$alert(reponse.data.msg, '提示', {
+							confirmButtonText: '确定',
+							callback: action => {
+								
+							}
+						});
+					}
+				})
+			},
 			del(keys,val){
 				var _this=this;
 				this.$http.get("delA.php",{params:{
@@ -119,26 +123,8 @@
 			incrementTotal(val){
 				this.show=val.shows;
 				if(val.add){
-					this.ajaxData();
+					this.getApiList();
 				}
-			},
-			ajaxData(num){
-				var _this=this;
-				this.$http.get("showList.php",{params:{
-					"phone":localStorage.userPhone,
-					"uuid":_this.$route.query.userid,
-					"ground_id":_this.groundID,
-					"null":"null",
-				}}).then(reponse=>{
-					if(reponse.data.type==1){
-						var ln=reponse.data.data.length
-						if(num==1){
-							_this.apiData=reponse.data.data;
-						}else{
-							_this.apiData.push(reponse.data.data[ln-1]);
-						}
-					}
-				})
 			},
 			newGroun(){
 				var val=prompt("请输入分组名称");
@@ -147,7 +133,7 @@
 				this.$http.get("/ground.php",{params:{
 					name:val,
 					keys:timestamp,
-					uuid:_this.$route.query.userid,
+					uuid:_this.$route.query.id,
 				}}).then((res)=>{
 					if(res.data.type==1){
 						_this.$message({

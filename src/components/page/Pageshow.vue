@@ -80,7 +80,7 @@
 			},
 			toPush:function(data){
 				this.$router.push({
-					path:'/index/apiAdmin?userid='+data
+					path:'/index/apiAdmin?id='+data
 				})
 			},
 			ajaxData(){

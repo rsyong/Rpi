@@ -54,7 +54,7 @@
 						_this.$message({
 				          message: '登录成功',
 				          type: 'success',
-				          duration:1000,
+				          duration:600,
 				          showClose:true,
 				          onClose:function(){
 				          	_this.$router.push({
