@@ -65,7 +65,7 @@
 			var _this=this;
 			this.getApiList();
 			this.$http.post("/data/ground",qs.stringify({
-				"id":_this.$route.query.id
+				"projectid":_this.$route.query.projectid
 			})).then(response=>{
 				if(response.data.code==1){
 					_this.groun=response.data.data;

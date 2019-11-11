@@ -78,20 +78,20 @@
 		},
 		mounted() {
 			var _this=this;
-			this.$http.post("/data/ground",qs.stringify({
-				"id":_this.$route.query.id
-			})).then(response=>{
-				if(response.data.code==1){
-					_this.listGround=response.data.data;
-				}else{
-					_this.$alert(response.data.msg, '提示', {
-				          confirmButtonText: '确定',
-				          callback: action => {
+			// this.$http.post("/data/ground",qs.stringify({
+			// 	"id":_this.$route.query.id
+			// })).then(response=>{
+			// 	if(response.data.code==1){
+			// 		_this.listGround=response.data.data;
+			// 	}else{
+			// 		_this.$alert(response.data.msg, '提示', {
+			// 	          confirmButtonText: '确定',
+			// 	          callback: action => {
 				            
-				          }
-				     });
-				}
-			})
+			// 	          }
+			// 	     });
+			// 	}
+			// })
 		},
 		methods:{
 			suer:function(){
