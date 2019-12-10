@@ -11,18 +11,26 @@
 					<div class="flex">
 						<div class="flex mr-10">
 							<div>方法：</div>
-							<select class="flex" v-model="mydata.meoth" :disabled="mydata.isEdit">
-								<option v-for="(item,index) in ['get','post']" :key="index">{{item}}</option>
-							</select>
+							<div style="flex:1">
+								<el-select v-model="mydata.meoth" placeholder="请选择" :disabled="mydata.isEdit">
+									<el-option
+										v-for="item in ['get','post']" :key="item" :label="item" :value="item">
+									</el-option>
+								</el-select>
+							</div>
 						</div>
 						<div class="flex">
 							<div>分组：</div>
-							<select class="flex" v-model="mydata.gorund" :disabled="mydata.isEdit" v-if="mydata.isEdit">
-								<option v-for="(item,index) in listGround" :key="index">{{item.ground_name}}</option>
-							</select>
-							<select class="flex"  v-model="gorund" v-if="!mydata.isEdit">
-								<option v-for="(item,index2) in listGround" :key="index2">{{item.ground_name}}</option>
-							</select>
+							<div style="flex:1" v-if="mydata.isEdit">
+								<el-select :disabled="true" v-model="mydata.ground" placeholder="请选择"></el-select>
+							</div>
+							<div style="flex:1" v-else-if="!mydata.isEdit && mydata.gorund && mydata.gorund.length>0">
+								<el-select v-model="ground" placeholder="请选择">
+									<el-option
+										v-for="item in mydata.gorund" :key="item.ground_name" :label="item.ground_name" :value="item.ground_name">
+									</el-option>
+								</el-select>
+							</div>
 						</div>
 					</div>
 				</div>
@@ -67,39 +75,19 @@
 		props:['isShow','mydata'],
 		data (){
 			return{
-				listGround:[],
-				name:'',
-				moth:'get',
-				gorund:'所有分组',
-				urls:'',
-				canshu:[{name:'',valus:''}],
-				fanhui:[{name:'',valus:''}],
+				ground:'所有分组'
 			}
 		},
 		mounted() {
-			var _this=this;
-			// this.$http.post("/data/ground",qs.stringify({
-			// 	"id":_this.$route.query.id
-			// })).then(response=>{
-			// 	if(response.data.code==1){
-			// 		_this.listGround=response.data.data;
-			// 	}else{
-			// 		_this.$alert(response.data.msg, '提示', {
-			// 	          confirmButtonText: '确定',
-			// 	          callback: action => {
-				            
-			// 	          }
-			// 	     });
-			// 	}
-			// })
+			
 		},
 		methods:{
 			suer:function(){
 				var _this=this;
-				this.$http.post("/data/addApi",qs.stringify({
+				this.$http.post("/api/add",qs.stringify({
 					"name":_this.mydata.name,
-					"moth":_this.mydata.moth,
-					"gorund":_this.gorund,
+					"moth":_this.mydata.meoth,
+					"gorund":_this.ground,
 					"api_url":_this.mydata.api_url,
 					"canshu":JSON.stringify(_this.mydata.canshu),
 					"fanhui":JSON.stringify(_this.mydata.fanhui),

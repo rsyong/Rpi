@@ -52,7 +52,7 @@
 		methods:{
 			del(keys,val){
 				var _this=this;
-				this.$http.post("/data/deleted",qs.stringify({
+				this.$http.post("/project/deletes",qs.stringify({
 					id:val,
 				})).then((res)=>{
 					if(res.data.code==1){
@@ -85,7 +85,7 @@
 			},
 			ajaxData(){
 				var _this=this;
-				_this.$http.get("/data/getList",{params:{
+				_this.$http.get("/project/list",{params:{
 					phone:localStorage.userPhone
 				}}).then(reponse=>{
 					if(reponse.data.code==1){

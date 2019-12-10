@@ -58,37 +58,42 @@
 				isactiveGroun:0,
 				apiData:[],
 				mydata:{},
-				groundID:'0000000000000',
+				groundID:'1',
 			}
 		},
 		mounted(){
 			var _this=this;
-			this.getApiList();
-			this.$http.post("/data/ground",qs.stringify({
-				"projectid":_this.$route.query.projectid
-			})).then(response=>{
-				if(response.data.code==1){
-					_this.groun=response.data.data;
-				}else{
-					_this.$alert(response.data.msg, '提示', {
-						confirmButtonText: '确定',
-						callback: action => {
-						
-						}
-					});
-				}
-			})
+			this.getGround();
 		},
 		computed:{
 			
 		},
 		methods:{
+			getGround(){
+				var _this=this;
+				this.$http.post("/ground/list",qs.stringify({
+					"projectid":_this.$route.query.projectid
+				})).then(response=>{
+					if(response.data.code==1){
+						_this.groun=response.data.data;
+						_this.groundID=_this.groun[0]['ground_id'];
+						_this.getApiList();
+					}else{
+						_this.$alert(response.data.msg, '提示', {
+							confirmButtonText: '确定',
+							callback: action => {
+							
+							}
+						});
+					}
+				})
+			},
 			getApiList(){
 				var _this=this;
-				this.$http.post("/data/getApiList",qs.stringify({
+				this.$http.get("/api/list",{params:{
 					"phone":localStorage.userPhone,
-					"ground_id":"1",
-				})).then(reponse=>{
+					"ground_id":_this.groundID,
+				}}).then(reponse=>{
 					if(reponse.data.code==1){
 						_this.apiData=reponse.data.data;
 					}else{
@@ -103,10 +108,10 @@
 			},
 			del(keys,val){
 				var _this=this;
-				this.$http.get("delA.php",{params:{
+				this.$http.post("/api/deletes",qs.stringify({
 					id:val,
-				}}).then((res)=>{
-					if(res.data.type==1){
+				})).then((res)=>{
+					if(res.data.code==1){
 						this.apiData.splice(keys,1);
 					}
 					_this.$message({
@@ -130,29 +135,19 @@
 				var val=prompt("请输入分组名称");
 				var timestamp = Date.parse(new Date()); 
 				var _this=this;
-				this.$http.get("/ground.php",{params:{
-					name:val,
-					keys:timestamp,
-					uuid:_this.$route.query.id,
-				}}).then((res)=>{
-					if(res.data.type==1){
-						_this.$message({
-				          message: '新建成功',
-				          type: 'success',
-				          duration:1000,
-				          showClose:true,
-				          onClose:function(){
-				          	
-				          }
-				       });
-						this.groun.push({name:val,keys:timestamp});
+				this.$http.post("/ground/add",qs.stringify({
+					ground_name:val,
+					project_id:_this.$route.query.projectid
+				})).then((res)=>{
+					if(res.data.code==1){
+						_this.getGround();
 					}
 				})
 			},
 			addApi(inx,val){
 				var _this=this;
 				if(inx==1){
-					this.mydata={canshu:[{name:'',valus:''}],fanhui:[{name:'',valus:''}],moth:'get',gorund:'所有分组'};
+					this.mydata={canshu:[{name:'',valus:''}],fanhui:[{name:'',valus:''}],meoth:'get',gorund:_this.groun};
 				}else if(inx==2){
 					if(typeof val.canshu=="string"){
 						val.canshu=eval('('+ val.canshu +')');
@@ -180,7 +175,7 @@
 				}else{
 					this.isactiveGroun=val;
 					this.groundID=data.ground_id;
-					this.ajaxData(1);
+					this.getApiList();
 				}
 			}
 		}
