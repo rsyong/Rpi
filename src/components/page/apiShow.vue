@@ -25,9 +25,9 @@
 								<el-select :disabled="true" v-model="mydata.ground" placeholder="请选择"></el-select>
 							</div>
 							<div style="flex:1" v-else-if="!mydata.isEdit && mydata.gorund && mydata.gorund.length>0">
-								<el-select v-model="ground" placeholder="请选择">
-									<el-option
-										v-for="item in mydata.gorund" :key="item.ground_name" :label="item.ground_name" :value="item.ground_name">
+								<el-select v-model="ground" placeholder="请选择" @change="changeGrpun" >
+									<el-option 
+										v-for="item in mydata.gorund" :key="item.id" :label="item.ground_name" :value="item.ground_name">
 									</el-option>
 								</el-select>
 							</div>
@@ -75,13 +75,40 @@
 		props:['isShow','mydata'],
 		data (){
 			return{
-				ground:'所有分组'
+				ground:'',
+				gorund_id:1
 			}
 		},
 		mounted() {
-			
+			this.getGround();
 		},
 		methods:{
+			changeGrpun(e){
+				let myarr=this.mydata.gorund.filter(o=>o.ground_name==e);
+				if(myarr.length>0){
+					this.gorund_id=myarr[0]['ground_id'];
+				}
+			},
+			getGround(){
+				var _this=this;
+				this.$http.post("/ground/list",qs.stringify({
+					"projectid":_this.$route.query.projectid
+				})).then(response=>{
+					if(response.data.code==1){
+						_this.groun=response.data.data;
+						_this.mydata.gorund=_this.groun;
+						_this.ground=_this.groun[0]['ground_name'];
+						_this.gorund_id=_this.groun[0]['ground_id'];
+					}else{
+						_this.$alert(response.data.msg, '提示', {
+							confirmButtonText: '确定',
+							callback: action => {
+							
+							}
+						});
+					}
+				})
+			},
 			suer:function(){
 				var _this=this;
 				this.$http.post("/api/add",qs.stringify({
@@ -92,7 +119,7 @@
 					"canshu":JSON.stringify(_this.mydata.canshu),
 					"fanhui":JSON.stringify(_this.mydata.fanhui),
 					"phone":localStorage.userPhone,
-					"gorund_id":1,
+					"gorund_id":_this.gorund_id,
 				})).then(reponse=>{
 					if(reponse.data.code==1){
 						_this.$alert(reponse.data.msg, '提示', {

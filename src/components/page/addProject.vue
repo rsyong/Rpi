@@ -52,7 +52,7 @@
 		methods:{
 			suer:function(){
 				var _this=this;
-				this.$http.post("/data/addList",qs.stringify({
+				this.$http.post("/project/add",qs.stringify({
 					"projectClass":_this.projectClass,
 					"vction":_this.vction,
 					"kinds":_this.kinds,
